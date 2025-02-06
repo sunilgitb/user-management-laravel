@@ -41,5 +41,23 @@ services:
     depends_on:
       - app
 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mysql-container  # Ensure phpMyAdmin connects to mysql-container
+      MYSQL_ROOT_PASSWORD: root  # Root password for MySQL
+    ports:
+      - "8081:80"  # Expose phpMyAdmin on port 8081
+    depends_on:
+      - mysql
+    networks:
+      - app-network  # Ensure all services are in the same network
+
 volumes:
   mysql_data:
+
+networks:
+  app-network:
+    driver: bridge
